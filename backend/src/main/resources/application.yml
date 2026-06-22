@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/studentdb
+    url: jdbc:postgresql://localhost:5433/studentdb
     username: student
     password: student
     driver-class-name: org.postgresql.Driver

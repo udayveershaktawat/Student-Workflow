@@ -6,7 +6,7 @@
                   xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
                   id="Definitions_StudentApproval"
                   targetNamespace="http://example.com/bpmn">
-  <bpmn:process id="student-approval" name="Student Approval" isExecutable="true">
+  <bpmn:process id="student-approval" name="Student Approval" isExecutable="true" camunda:historyTimeToLive="P180D">
 
     <bpmn:startEvent id="Event_Start" name="Student created">
       <bpmn:outgoing>Flow_StartToApproval</bpmn:outgoing>
