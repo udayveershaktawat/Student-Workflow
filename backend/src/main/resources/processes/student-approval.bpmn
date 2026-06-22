@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  id="Definitions_StudentApproval"
+                  targetNamespace="http://example.com/bpmn">
+  <bpmn:process id="student-approval" name="Student Approval" isExecutable="true">
+
+    <bpmn:startEvent id="Event_Start" name="Student created">
+      <bpmn:outgoing>Flow_StartToApproval</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="Task_AdminApproval" name="Admin: approve student"
+                   camunda:candidateGroups="admin">
+      <bpmn:incoming>Flow_StartToApproval</bpmn:incoming>
+      <bpmn:outgoing>Flow_ApprovalToActivate</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:serviceTask id="Task_Activate" name="Set status ACTIVE"
+                      camunda:delegateExpression="${activateStudentDelegate}">
+      <bpmn:incoming>Flow_ApprovalToActivate</bpmn:incoming>
+      <bpmn:outgoing>Flow_ActivateToEnd</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:endEvent id="Event_End" name="Student active">
+      <bpmn:incoming>Flow_ActivateToEnd</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_StartToApproval" sourceRef="Event_Start" targetRef="Task_AdminApproval"/>
+    <bpmn:sequenceFlow id="Flow_ApprovalToActivate" sourceRef="Task_AdminApproval" targetRef="Task_Activate"/>
+    <bpmn:sequenceFlow id="Flow_ActivateToEnd" sourceRef="Task_Activate" targetRef="Event_End"/>
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="student-approval">
+      <bpmndi:BPMNShape id="Event_Start_di" bpmnElement="Event_Start">
+        <dc:Bounds x="172" y="102" width="36" height="36"/>
+        <bpmndi:BPMNLabel><dc:Bounds x="158" y="145" width="64" height="14"/></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_AdminApproval_di" bpmnElement="Task_AdminApproval">
+        <dc:Bounds x="260" y="80" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Activate_di" bpmnElement="Task_Activate">
+        <dc:Bounds x="420" y="80" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_End_di" bpmnElement="Event_End">
+        <dc:Bounds x="582" y="102" width="36" height="36"/>
+        <bpmndi:BPMNLabel><dc:Bounds x="570" y="145" width="62" height="14"/></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_StartToApproval_di" bpmnElement="Flow_StartToApproval">
+        <di:waypoint x="208" y="120"/>
+        <di:waypoint x="260" y="120"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ApprovalToActivate_di" bpmnElement="Flow_ApprovalToActivate">
+        <di:waypoint x="360" y="120"/>
+        <di:waypoint x="420" y="120"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ActivateToEnd_di" bpmnElement="Flow_ActivateToEnd">
+        <di:waypoint x="520" y="120"/>
+        <di:waypoint x="582" y="120"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
