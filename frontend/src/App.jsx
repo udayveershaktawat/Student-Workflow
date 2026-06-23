@@ -10,6 +10,8 @@ const styles = {
   btn: { background: '#1a1a1a', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer' },
 };
 
+
+
 export default function App() {
   const username = keycloak.tokenParsed?.preferred_username;
   const isAssistant = keycloak.hasRealmRole('assistant');
