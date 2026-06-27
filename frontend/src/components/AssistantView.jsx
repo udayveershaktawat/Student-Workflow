@@ -37,6 +37,11 @@ export default function AssistantView() {
 
       <button style={btn} onClick={submit}>Create student</button>
 
+
+
+
+      
+
       {result && (
         <p style={{ color: 'green', marginTop: 16 }}>
           Created #{result.id} — status {result.status} (process {result.processInstanceId?.slice(0, 8)}…)
